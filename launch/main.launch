@@ -3,13 +3,16 @@
 
 	<node name="target0" pkg="rosdot" type="target.py" output="screen" >
 	      <param name="uid" value="0"/>
+	      <param name="ub" value="4"/>
 	</node>
 	<node name="source0" pkg="rosdot" type="source.py" output="screen" >
 	      <param name="uid" value="0"/>
+	      <param name="ub" value="3"/>
 	</node>
 
 	<node name="source1" pkg="rosdot" type="source.py" output="screen" >
 	      <param name="uid" value="1"/>
+	      <param name="ub" value="4"/>
 	</node>
 	
 	<rosparam file="$(find rosdot)/config/params.yaml"/>

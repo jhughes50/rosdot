@@ -1,3 +1,4 @@
+max_iter: 150
 target:
   eta: 1
   num_agents: 1
