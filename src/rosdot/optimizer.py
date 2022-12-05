@@ -8,8 +8,11 @@ def optimize(pi, pi_k, c, w, eta, ub, my_ub):
     
     cons = ({'type': 'ineq', 'fun': lambda u: ub - u},
             {'type': 'ineq', 'fun': lambda u: my_ub - np.sum(u)})
+
+    bnds = np.zeros((len(pi),2))
+    bnds[:,1] = None
     
-    res = minimize(func, pi, method='SLSQP', constraints = cons)
+    res = minimize(func, np.ones(len(pi)), method='SLSQP', bounds = bnds, constraints = cons)
 
     return res.x, w + (eta/2) * (res.x - pi_k)
 

@@ -11,16 +11,17 @@ class SourceAgent:
     def __init__(self, num, namespace):
 
         self.source_num = num
-
+        self.rate = rospy.Rate(10)
+        
         self.num_targets = rospy.get_param('target/num_agents')
         self.eta = rospy.get_param('/source/eta')
         self.num_sources = rospy.get_param('/source/num_agents')
         self.node_ub = rospy.get_param(namespace+'/ub')
         self.max_iter = rospy.get_param('/max_iter')
-        self.cost = 5 * np.ones(self.num_targets)
+        self.cost = -1 * np.ones(self.num_targets)
         
-        self.sys_ubs = np.ones(self.num_targets)
-        self.sys_data = np.ones(self.num_targets)
+        self.target_ubs = np.ones(self.num_targets)
+        self.pi = np.ones(self.num_targets)
         
         self.source_pubs = list()
         
@@ -42,27 +43,28 @@ class SourceAgent:
         self.iter_msg.node_id = num
         #assert len( self.upper_bounds ) == self.num_sources
 
-        for _ in range(100):
+        for _ in range(1):
             self.initial_publish()
+            self.rate.sleep()
             
-        
         self.cycle()
+
         
     def target_cb(self, msg):
-        #rospy.loginfo('heard message from target %s'%(msg.node_id))
-        print('In the source cb')
         self.update_params(msg)
 
 
     def update_params(self, msg):
         self.node_tracker[msg.node_id] = True
-        self.source_ubs[msg.node_id] = msg.upper_bound
+        self.target_ubs[msg.node_id] = msg.upper_bound
         self.pi[msg.node_id] = msg.data
         
 
     def iterative_update(self):
-        self.scheme, self.w = optimize(np.ones(self.num_targets), self.pi, self.cost, self.w, self.eta, self.target_ubs, self.node_ub)
+        update, self.w = optimize(np.ones(self.num_targets), self.pi, self.cost, self.w, self.eta, self.target_ubs, self.node_ub)
+        self.pi = 0.5 * (update + self.pi) 
         self.node_tracker = np.zeros(self.num_targets, dtype=bool)
+        print(self.pi)
         
     def publish_msg(self):
         self.iter_msg.node_id = self.source_num
@@ -84,16 +86,18 @@ class SourceAgent:
         
     def cycle(self):
 
-        rate = rospy.Rate(10)
+        #rate = rospy.Rate(10)
 
         while not rospy.is_shutdown():
-            print(self.node_tracker)
+            #print(self.node_tracker)
             if np.sum(self.node_tracker) == self.num_targets:
                 self.iterative_update()
                 self.publish_msg()
-                
-            rate.sleep()
+            #else:
+            #    self.publish_msg()
+            self.rate.sleep()
 
+            
 if __name__ == "__main__":
     rospy.init_node("source", anonymous=True)
     uid = rospy.get_param(rospy.get_name()+"/uid")

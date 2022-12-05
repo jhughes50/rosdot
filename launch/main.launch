@@ -1,5 +1,5 @@
 <launch>
-	<arg name="uid" default="1"/>
+	<!--arg name="uid" default="1"/-->
 
 	<node name="target0" pkg="rosdot" type="target.py" output="screen" >
 	      <param name="uid" value="0"/>
