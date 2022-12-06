@@ -1,4 +1,5 @@
 ## ROSDOT ##
+![rosdor_overview](doc/rosdot_overview.jpg)
 
 A ROS implementation of Distributed Optimal Transport. There are two types of nodes, target nodes and sources nodes. Sources nodes are supposed to provide target nodes with some resource. This can also be thought of more abstactly, where  the algorithm converges to some sort of cost or score between the nodes. ROSDOT will automoatically create topics between source and target nodes in both directions, they take on the name of `/source0_to_target0` and `/target0_to_source0` and so on for every connection. This repo can be used in two ways.
 1. Run a simulated networked system on a single machine.
