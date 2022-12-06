@@ -1,4 +1,4 @@
-max_iter: 150
+max_iter: 50
 target:
   eta: 1
   num_agents: 1
@@ -10,5 +10,4 @@ source:
   eta: 1
   num_agents: 2
   cost:
-    - 4
     - 4

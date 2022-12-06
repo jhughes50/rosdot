@@ -6,12 +6,12 @@ A ROS implementation of Distributed Optimal Transport. There are two types of no
 
 ### Running A Simulation ###
 
-To run a simulation use the command `roslaunch rosdot sim.launch` once you've built and sourced the workspace. To add nodes, add an instance of either a target or source node in the launch file and condifure the parameters to your liking. Also, make sure you adjust the network configuration in `config/network.yaml` such that the number of target and source nodes in correct. You can also adjust the cost parameter between nodes in this file. If you do not want to hard code them you can publish on the `/target_cost` or `/source_cost` topics.
+To run a simulation use the command `roslaunch rosdot sim.launch` once you've built and sourced the workspace. To add nodes, add an instance of either a target or source node in the launch file and condifure the parameters to your liking. Also, make sure you adjust the network configuration in `config/network.yaml` such that the number of target and source nodes in correct. You can also adjust the cost parameter between nodes in this file. If you do not want to hard code them you can publish on the `/target_cost` or `/source_cost` topics. The cost topics are of a message of type Float64MultiArray. 
 
 ### Running A Single Node ###
 Use the `target.launch` or the `source.launch` files to launch a single node, make sure the nodes name is unique in the launch file, and should make the uid parameter. Make sure you configure the network parameters in `config/network.yaml` as you would for the simulation (see above).
 
-### Message Types ###
+### Custom Message Types ###
  Iteration.msg
  ```
  int64 node_id
@@ -19,4 +19,5 @@ Use the `target.launch` or the `source.launch` files to launch a single node, ma
  float64 upper_bound
  int64 k
  ```
- This is the message type used for the iterative updates. `node_id` is the uid of the target or source node. `data` is the output of the optimization problem at the iteration, `k` is the iteration and `upper_bound` is the upper bound of the node. 
+ This is the message type used for the iterative updates. `node_id` is the uid of the target or source node. `data` is the output of the optimization problem at the iteration, `k` is the iteration and `upper_bound` is the upper bound of the node.
+
