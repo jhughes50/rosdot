@@ -1,5 +1,4 @@
 <launch>
-	<!--arg name="uid" default="1"/-->
 
 	<node name="target0" pkg="rosdot" type="target.py" output="screen" >
 	      <param name="uid" value="0"/>
@@ -15,5 +14,5 @@
 	      <param name="ub" value="4"/>
 	</node>
 	
-	<rosparam file="$(find rosdot)/config/params.yaml"/>
+	<rosparam file="$(find rosdot)/config/network.yaml"/>
 </launch>

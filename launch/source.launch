@@ -1,0 +1,11 @@
+<launch>
+	<arg name="uid" default="0"/>
+	<arg name="ub" default="4"/>
+
+	<node name="source0" pkg="rosdot" type="source.py" output="screen" >
+	      <param name="uid" value="0"/>
+	      <param name="ub" value="4"/>
+	</node>
+	
+	<rosparam file="$(find rosdot)/config/network.yaml"/>
+</launch>
